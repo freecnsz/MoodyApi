@@ -1,5 +1,8 @@
+#nullable enable
+using System;
 using System.Text;
 using System.Text.Json;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
@@ -35,6 +38,12 @@ namespace MoodyApi.Extensions
         private readonly MoodEngine _moodEngine;
         private readonly MoodOptions _options;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MoodyApiMiddleware"/> class.
+        /// </summary>
+        /// <param name="next">The next middleware in the pipeline.</param>
+        /// <param name="moodEngine">The mood engine instance.</param>
+        /// <param name="options">The mood options.</param>
         public MoodyApiMiddleware(RequestDelegate next, MoodEngine moodEngine, MoodOptions options)
         {
             _next = next;
@@ -42,6 +51,10 @@ namespace MoodyApi.Extensions
             _options = options;
         }
 
+        /// <summary>
+        /// Handles the HTTP request and injects mood-based response data.
+        /// </summary>
+        /// <param name="context">The HTTP context.</param>
         public async Task InvokeAsync(HttpContext context)
         {
             // Store the original response body stream

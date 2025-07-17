@@ -17,6 +17,9 @@ namespace MoodyApi.Providers
             "Well, well, well... look who's here again."
         };
 
+        /// <summary>
+        /// Returns a random sarcastic message.
+        /// </summary>
         public string GetMessage()
         {
             var index = Random.Shared.Next(Messages.Length);

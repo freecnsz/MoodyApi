@@ -1,3 +1,5 @@
+#nullable enable
+using System;
 using Microsoft.Extensions.DependencyInjection;
 using MoodyApi.Configuration;
 using MoodyApi.Core;

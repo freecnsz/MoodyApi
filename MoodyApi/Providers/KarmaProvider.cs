@@ -17,6 +17,9 @@ namespace MoodyApi.Providers
             "Your digital footprint creates ripples in the cosmic code."
         };
 
+        /// <summary>
+        /// Returns a random karma-related message.
+        /// </summary>
         public string GetMessage()
         {
             var index = Random.Shared.Next(Messages.Length);

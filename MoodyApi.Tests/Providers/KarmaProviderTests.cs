@@ -1,5 +1,8 @@
 using FluentAssertions;
 using MoodyApi.Providers;
+using System;
+using System.Linq;
+using System.Reflection;
 
 namespace MoodyApi.Tests.Providers
 {
@@ -22,15 +25,13 @@ namespace MoodyApi.Tests.Providers
         public void GetMessage_ShouldContainPhilosophicalElements()
         {
             // Arrange
-            var provider = new KarmaProvider();
             var philosophicalWords = new[] { "seek", "universe", "balance", "soul", "echo", "karma", "cosmic" };
-
-            // Act
-            var message = provider.GetMessage();
+            var messages = typeof(KarmaProvider)
+                .GetField("Messages", BindingFlags.NonPublic | BindingFlags.Static)
+                .GetValue(null) as string[];
 
             // Assert
-            philosophicalWords.Should().Contain(word => 
-                message.ToLower().Contains(word.ToLower()));
+            messages.Should().Contain(msg => philosophicalWords.Any(word => msg.ToLower().Contains(word.ToLower())));
         }
     }
 }

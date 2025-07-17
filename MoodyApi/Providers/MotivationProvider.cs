@@ -17,6 +17,9 @@ namespace MoodyApi.Providers
             "The future belongs to those who believe in the beauty of their dreams."
         };
 
+        /// <summary>
+        /// Returns a random motivational message.
+        /// </summary>
         public string GetMessage()
         {
             var index = Random.Shared.Next(Messages.Length);

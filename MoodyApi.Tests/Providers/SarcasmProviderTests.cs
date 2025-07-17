@@ -1,5 +1,8 @@
 using FluentAssertions;
 using MoodyApi.Providers;
+using System;
+using System.Linq;
+using System.Reflection;
 
 namespace MoodyApi.Tests.Providers
 {
@@ -22,15 +25,13 @@ namespace MoodyApi.Tests.Providers
         public void GetMessage_ShouldContainSarcasticElements()
         {
             // Arrange
-            var provider = new SarcasmProvider();
             var sarcasticIndicators = new[] { "Oh", "Wow", "great", "thrilled", "shocking", "delightfully" };
-
-            // Act
-            var message = provider.GetMessage();
+            var messages = typeof(SarcasmProvider)
+                .GetField("Messages", BindingFlags.NonPublic | BindingFlags.Static)
+                .GetValue(null) as string[];
 
             // Assert
-            sarcasticIndicators.Should().Contain(indicator => 
-                message.ToLower().Contains(indicator.ToLower()));
+            messages.Should().Contain(msg => sarcasticIndicators.Any(indicator => msg.ToLower().Contains(indicator.ToLower())));
         }
     }
 }

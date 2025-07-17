@@ -1,3 +1,6 @@
+#nullable enable
+using System;
+using System.Collections.Generic;
 using MoodyApi.Providers.Interfaces;
 
 namespace MoodyApi.Providers
@@ -39,6 +42,9 @@ namespace MoodyApi.Providers
             }
         };
 
+        /// <summary>
+        /// Returns a random time-based message.
+        /// </summary>
         public string GetMessage()
         {
             var timeOfDay = GetCurrentTimeOfDay();

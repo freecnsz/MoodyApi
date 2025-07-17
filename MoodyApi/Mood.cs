@@ -1,5 +1,7 @@
-using MoodyApi.Models;
+#nullable enable
+using System;
 using Microsoft.Extensions.DependencyInjection;
+using MoodyApi.Models;
 using MoodyApi.Core;
 
 namespace MoodyApi

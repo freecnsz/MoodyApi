@@ -17,6 +17,9 @@ namespace MoodyApi.Providers
             "Exception caught, resilience activated."
         };
 
+        /// <summary>
+        /// Returns a random error-related message.
+        /// </summary>
         public string GetMessage()
         {
             var index = Random.Shared.Next(Messages.Length);

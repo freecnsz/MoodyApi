@@ -16,6 +16,9 @@ namespace MoodyApi.Providers
             "Service is running normally."
         };
 
+        /// <summary>
+        /// Returns a random neutral message.
+        /// </summary>
         public string GetMessage()
         {
             var index = Random.Shared.Next(Messages.Length);
