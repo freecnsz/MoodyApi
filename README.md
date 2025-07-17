@@ -2,7 +2,6 @@
 
 [![NuGet](https://img.shields.io/nuget/v/MoodyApi.svg)](https://www.nuget.org/packages/MoodyApi)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
-[![Build Status](https://img.shields.io/github/actions/workflow/status/freecnsz/MoodyApi/ci.yml?branch=main)](https://github.com/freecnsz/MoodyApi/actions)
 
 ---
 
