@@ -70,6 +70,10 @@ coverage*.json
 coverage*.xml
 coverage*.info
 
+# Coverage HTML reports
+coverage-report/
+**/coverage-report/
+
 # NUnit
 TestResult.xml
 TestResult*.xml
