@@ -1,30 +1,97 @@
+using MoodyApi.Configuration;
 using MoodyApi.Models;
-using MoodyApi.Providers;
 using MoodyApi.Providers.Interfaces;
 
 namespace MoodyApi.Core
 {
     /// <summary>
-    /// Engine for resolving mood-based message providers.
+    /// Core engine to resolve mood-specific messages based on configuration.
     /// </summary>
-    public static class MoodEngine
+    public class MoodEngine
     {
+        private readonly MoodOptions _options;
+        private readonly Dictionary<MoodType, IMessageProvider> _providers;
+        private readonly UserTracker _userTracker;
+
         /// <summary>
-        /// Gets a mood-based message.
+        /// Creates an instance of MoodEngine with configuration and providers.
         /// </summary>
-        /// <param name="mood">The mood type.</param>
-        /// <returns>A message string matching the selected mood.</returns>
-        public static string GetMessage(MoodType mood)
+        /// <param name="options">Configuration options controlling mood behavior.</param>
+        /// <param name="providers">Dictionary of mood providers keyed by MoodType.</param>
+        /// <param name="userTracker">User tracking service for karma calculations.</param>
+        public MoodEngine(MoodOptions options, Dictionary<MoodType, IMessageProvider> providers, UserTracker userTracker)
         {
-            IMessageProvider provider = mood switch
+            _options = options;
+            _providers = providers;
+            _userTracker = userTracker;
+        }
+
+        /// <summary>
+        /// Generates a mood-based response object based on mood settings.
+        /// </summary>
+        /// <param name="moodType">Optional override for specific mood.</param>
+        /// <param name="userId">Optional user identifier for karma tracking.</param>
+        /// <returns>A MoodResponse object with content and metadata.</returns>
+        public MoodResponse GetMoodResponse(MoodType? moodType = null, string? userId = null)
+        {
+            var typeToUse = moodType ?? ResolveMoodFromOptions();
+            
+            // Track user if provided
+            if (!string.IsNullOrEmpty(userId))
             {
-                MoodType.Sarcastic => new SarcasmProvider(),
-                MoodType.Motivational => new MotivationProvider(),
-                MoodType.KarmaBased => new KarmaProvider(),
-                _ => throw new ArgumentOutOfRangeException(nameof(mood), "Unsupported mood type.")
+                _userTracker.RecordRequest(userId);
+            }
+
+            var message = _providers.TryGetValue(typeToUse, out var provider)
+                ? provider.GetMessage()
+                : "No mood available.";
+
+            var response = new MoodResponse
+            {
+                Message = message,
+                Mood = typeToUse,
+                Timestamp = DateTime.UtcNow
             };
 
-            return provider.GetMessage();
+            // Add karma score if user is tracked
+            if (!string.IsNullOrEmpty(userId))
+            {
+                response.KarmaScore = _userTracker.GetKarmaScore(userId);
+            }
+
+            return response;
+        }
+
+        /// <summary>
+        /// Gets a simple message for the given mood type.
+        /// </summary>
+        /// <param name="moodType">The mood type.</param>
+        /// <returns>A mood-appropriate message.</returns>
+        public string GetMessage(MoodType moodType)
+        {
+            return _providers.TryGetValue(moodType, out var provider)
+                ? provider.GetMessage()
+                : "No mood available.";
+        }
+
+        /// <summary>
+        /// Resolves the appropriate mood type based on configuration flags.
+        /// </summary>
+        private MoodType ResolveMoodFromOptions()
+        {
+            // Check for specific mode override
+            if (_options.Mode != MoodType.Neutral)
+            {
+                return _options.Mode;
+            }
+
+            // Fallback to flag-based resolution
+            if (_options.EnableSarcasm) return MoodType.Sarcastic;
+            if (_options.EnableMotivation) return MoodType.Motivational;
+            if (_options.EnableKarma) return MoodType.KarmaBased;
+            if (_options.EnableTimeBased) return MoodType.TimeBased;
+            
+            return MoodType.Neutral;
         }
     }
 }
