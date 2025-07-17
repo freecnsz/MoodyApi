@@ -1,0 +1,98 @@
+# Build output
+bin/
+obj/
+
+# Visual Studio files
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Rider files
+.idea/
+
+# Resharper files
+_ReSharper*/
+*.DotSettings.user
+
+# NuGet Packages
+*.nupkg
+# The packages folder can be ignored because of Package Restore
+packages/
+
+# ASP.NET Scaffolding
+ScaffoldingReadMe.txt
+
+# Visual Studio Code
+.vscode/
+
+# JetBrains Rider
+.idea/
+
+# DotCover
+*.dotCover
+
+# Publish outputs
+publish/
+
+# Others
+*.log
+*.vsix
+*.cache
+*.dbmdl
+*.bak
+
+# Dotnet tool directories
+.tool/
+
+# Rider local history
+.idea/
+
+# Mac files
+.DS_Store
+
+# Windows thumbnail cache
+Thumbs.db
+ehthumbs.db
+
+# User-specific files
+*.rsuser
+*.suo
+*.user
+*.userprefs
+
+# Mono Auto Generated Files
+mono_crash.*
+
+# Coverlet code coverage reports
+coverage*.json
+coverage*.xml
+coverage*.info
+
+# NUnit
+TestResult.xml
+TestResult*.xml
+
+# JetBrains Rider caches
+.idea/
+
+# Temporary folders
+tmp/
+temp/
+
+# SQL Server files
+*.mdf
+*.ldf
+
+# Dotnet Watch files
+*.dotnet-watch*
+
+# Entity Framework Core tools
+ef.migrations.history
+
+# Local settings
+local.settings.json
+
+# .txt files
+*.txt
