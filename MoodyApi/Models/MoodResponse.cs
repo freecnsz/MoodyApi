@@ -1,4 +1,6 @@
-﻿namespace MoodyApi.Models
+﻿using System;
+
+namespace MoodyApi.Models
 {
     /// <summary>
     /// Represents the response returned by the Moody API.
@@ -14,5 +16,15 @@
         /// The mood that was used to generate the message.
         /// </summary>
         public MoodType Mood { get; set; }
+
+        /// <summary>
+        /// UTC timestamp when the response was generated.
+        /// </summary>
+        public DateTime Timestamp { get; set; } = DateTime.UtcNow;
+
+        /// <summary>
+        /// Optional karma score, if applicable.
+        /// </summary>
+        public int? KarmaScore { get; set; } = null;
     }
 }
