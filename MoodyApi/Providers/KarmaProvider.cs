@@ -13,6 +13,8 @@ namespace MoodyApi.Providers
             "Every request returns in kind.",
             "Your past calls echo in the server's soul.",
             "Balance is found in even requests and even responses.",
+            "The universe responds to those who ask with intention.",
+            "Your digital footprint creates ripples in the cosmic code."
         };
 
         public string GetMessage()

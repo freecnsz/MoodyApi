@@ -13,6 +13,8 @@ namespace MoodyApi.Providers
             "Wow, you're back again? Shocking.",
             "Because clearly the server had nothing better to do.",
             "Just what I needed today – more traffic!",
+            "Another request? How delightfully predictable.",
+            "Well, well, well... look who's here again."
         };
 
         public string GetMessage()

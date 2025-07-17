@@ -13,6 +13,8 @@ namespace MoodyApi.Providers
             "Believe in yourself and all that you are.",
             "Don't watch the clock; do what it does. Keep going.",
             "Dream big. Work hard. Stay focused.",
+            "Success is not final, failure is not fatal: it is the courage to continue that counts.",
+            "The future belongs to those who believe in the beauty of their dreams."
         };
 
         public string GetMessage()
