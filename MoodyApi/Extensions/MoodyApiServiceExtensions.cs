@@ -1,6 +1,7 @@
 #nullable enable
 using System;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using MoodyApi.Configuration;
 using MoodyApi.Core;
 using MoodyApi.Models;
@@ -25,27 +26,27 @@ namespace MoodyApi.Extensions
             // Register configuration
             var options = new MoodOptions();
             configureOptions?.Invoke(options);
+
+            // Validate options
+            if (options.KarmaThreshold < 1)
+            {
+                throw new ArgumentException("KarmaThreshold must be greater than 0.", nameof(options.KarmaThreshold));
+            }
+
             services.AddSingleton(options);
 
-            // Register providers
-            services.AddSingleton<IMessageProvider, NeutralProvider>();
-            services.AddSingleton<IMessageProvider, MotivationProvider>();
-            services.AddSingleton<IMessageProvider, SarcasmProvider>();
-            services.AddSingleton<IMessageProvider, KarmaProvider>();
-            services.AddSingleton<IMessageProvider, TimeBasedProvider>();
-            services.AddSingleton<IMessageProvider, ErrorBasedProvider>();
-
-            // Register provider dictionary
+            // Register provider dictionary - FIX: Proper provider registration
             services.AddSingleton<Dictionary<MoodType, IMessageProvider>>(provider =>
             {
+                var logger = provider.GetService<ILogger<MoodEngine>>();
                 return new Dictionary<MoodType, IMessageProvider>
                 {
-                    [MoodType.Neutral] = new NeutralProvider(),
-                    [MoodType.Motivational] = new MotivationProvider(),
-                    [MoodType.Sarcastic] = new SarcasmProvider(),
-                    [MoodType.KarmaBased] = new KarmaProvider(),
-                    [MoodType.TimeBased] = new TimeBasedProvider(),
-                    [MoodType.ErrorBased] = new ErrorBasedProvider()
+                    [MoodType.Neutral] = new NeutralProvider(logger),
+                    [MoodType.Motivational] = new MotivationProvider(logger),
+                    [MoodType.Sarcastic] = new SarcasmProvider(logger),
+                    [MoodType.KarmaBased] = new KarmaProvider(logger),
+                    [MoodType.TimeBased] = new TimeBasedProvider(logger),
+                    [MoodType.ErrorBased] = new ErrorBasedProvider(logger)
                 };
             });
 
