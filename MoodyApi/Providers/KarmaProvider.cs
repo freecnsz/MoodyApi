@@ -1,11 +1,13 @@
-using MoodyApi.Providers.Interfaces;
+#nullable enable
+using Microsoft.Extensions.Logging;
 
 namespace MoodyApi.Providers
 {
+
     /// <summary>
     /// Provides cryptic, philosophical karma-based messages.
     /// </summary>
-    public class KarmaProvider : IMessageProvider
+    public class KarmaProvider : BaseProvider
     {
         private static readonly string[] Messages = new[]
         {
@@ -18,9 +20,16 @@ namespace MoodyApi.Providers
         };
 
         /// <summary>
-        /// Returns a random karma-related message.
+        /// Initializes a new instance of the <see cref="KarmaProvider"/> class.
         /// </summary>
-        public string GetMessage()
+        /// <param name="logger">An optional logger instance.</param>
+        public KarmaProvider(ILogger? logger = null) : base(logger) { }
+
+        /// <summary>
+        /// Retrieves a random karma-based message.
+        /// </summary>
+        /// <returns>A randomly selected karma message string.</returns>
+        protected override string GetMessageInternal()
         {
             var index = Random.Shared.Next(Messages.Length);
             return Messages[index];

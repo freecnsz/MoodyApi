@@ -1,14 +1,13 @@
 #nullable enable
-using System;
-using System.Collections.Generic;
-using MoodyApi.Providers.Interfaces;
+using Microsoft.Extensions.Logging;
 
 namespace MoodyApi.Providers
 {
+
     /// <summary>
     /// Provides time-based messages depending on the current hour.
     /// </summary>
-    public class TimeBasedProvider : IMessageProvider
+    public class TimeBasedProvider : BaseProvider
     {
         private static readonly Dictionary<TimeOfDay, string[]> Messages = new()
         {
@@ -42,10 +41,17 @@ namespace MoodyApi.Providers
             }
         };
 
+
         /// <summary>
-        /// Returns a random time-based message.
+        /// Initializes a new instance of the <see cref="TimeBasedProvider"/> class.
         /// </summary>
-        public string GetMessage()
+        /// <param name="logger">An optional logger instance.</param>
+        public TimeBasedProvider(ILogger? logger = null) : base(logger) { }
+
+        /// <summary>
+        /// Retrieves a random message based on the current time of day.
+        /// </summary>
+        protected override string GetMessageInternal()
         {
             var timeOfDay = GetCurrentTimeOfDay();
             var messages = Messages[timeOfDay];

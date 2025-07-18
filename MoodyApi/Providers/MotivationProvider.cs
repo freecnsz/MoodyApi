@@ -1,11 +1,13 @@
-using MoodyApi.Providers.Interfaces;
+#nullable enable
+using Microsoft.Extensions.Logging;
 
 namespace MoodyApi.Providers
 {
+
     /// <summary>
     /// Provides motivational messages.
     /// </summary>
-    public class MotivationProvider : IMessageProvider
+    public class MotivationProvider : BaseProvider
     {
         private static readonly string[] Messages = new[]
         {
@@ -18,9 +20,16 @@ namespace MoodyApi.Providers
         };
 
         /// <summary>
-        /// Returns a random motivational message.
+        /// Initializes a new instance of the <see cref="MotivationProvider"/> class.
         /// </summary>
-        public string GetMessage()
+        /// <param name="logger">An optional logger instance.</param>
+        public MotivationProvider(ILogger? logger = null) : base(logger) { }
+
+        /// <summary>
+        /// Retrieves a random motivational message.
+        /// </summary>
+        /// <returns>A randomly selected motivational message string.</returns>
+        protected override string GetMessageInternal()
         {
             var index = Random.Shared.Next(Messages.Length);
             return Messages[index];

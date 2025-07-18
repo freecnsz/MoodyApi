@@ -1,11 +1,12 @@
-using MoodyApi.Providers.Interfaces;
+#nullable enable
+using Microsoft.Extensions.Logging;
 
 namespace MoodyApi.Providers
 {
     /// <summary>
     /// Provides error-specific messages.
     /// </summary>
-    public class ErrorBasedProvider : IMessageProvider
+    public class ErrorBasedProvider : BaseProvider
     {
         private static readonly string[] Messages = new[]
         {
@@ -18,9 +19,16 @@ namespace MoodyApi.Providers
         };
 
         /// <summary>
-        /// Returns a random error-related message.
+        /// Initializes a new instance of the <see cref="ErrorBasedProvider"/> class.
         /// </summary>
-        public string GetMessage()
+        /// <param name="logger">An optional logger instance.</param>
+        public ErrorBasedProvider(ILogger? logger = null) : base(logger) { }
+
+        /// <summary>
+        /// Retrieves a random error-specific message.
+        /// </summary>
+        /// <returns>A randomly selected error message string.</returns>
+        protected override string GetMessageInternal()
         {
             var index = Random.Shared.Next(Messages.Length);
             return Messages[index];

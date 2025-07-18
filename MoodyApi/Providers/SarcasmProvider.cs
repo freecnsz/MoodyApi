@@ -1,11 +1,13 @@
-using MoodyApi.Providers.Interfaces;
+#nullable enable
+using Microsoft.Extensions.Logging;
 
 namespace MoodyApi.Providers
 {
+
     /// <summary>
     /// Provides sarcastic responses.
     /// </summary>
-    public class SarcasmProvider : IMessageProvider
+    public class SarcasmProvider : BaseProvider
     {
         private static readonly string[] Messages = new[]
         {
@@ -18,9 +20,16 @@ namespace MoodyApi.Providers
         };
 
         /// <summary>
-        /// Returns a random sarcastic message.
+        /// Initializes a new instance of the <see cref="SarcasmProvider"/> class.
         /// </summary>
-        public string GetMessage()
+        /// <param name="logger">An optional logger instance.</param>
+        public SarcasmProvider(ILogger? logger = null) : base(logger) { }
+
+        /// <summary>
+        /// Retrieves a random sarcastic message.
+        /// </summary>
+        /// <returns>A randomly selected sarcastic message string.</returns>
+        protected override string GetMessageInternal()
         {
             var index = Random.Shared.Next(Messages.Length);
             return Messages[index];
